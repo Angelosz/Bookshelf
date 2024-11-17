@@ -43,17 +43,17 @@ fun BookDetailView(book: BookDetailData, modifier: Modifier = Modifier){
             AsyncImage(
                 model = ImageRequest
                     .Builder(context = LocalContext.current)
-                    .data(book.volumeInfo.imageLinks.image)
+                    .data(book.volumeInfo.imageLinks.image.replace("http", "https"))
                     .crossfade(true)
                     .build(),
                 error = painterResource(R.drawable.ic_launcher_foreground),
                 placeholder = painterResource(R.drawable.bookshelf_medium_image_example),
-                contentDescription = book.title,
+                contentDescription = book.volumeInfo.title,
                 alignment = Alignment.Center,
                 modifier = Modifier.fillMaxWidth()
             )
             Text (
-                text = book.title,
+                text = book.volumeInfo.title,
                 style = MaterialTheme.typography.displaySmall,
                 modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium))
             )
@@ -98,11 +98,11 @@ fun BookDetailViewPreview(){
             BookDetailView(
                 BookDetailData(
                     id = "1zpbEUd74fIC",
-                    title = "Historia del jazz",
                     volumeInfo = BookDetailVolumeInfo(
                         BookDetailImageLinks(
                             image = ""
                         ),
+                        title = "Historia del jazz",
                         authors = listOf("Ted Gioia"),
                         categories = listOf("Music / Genres & Styles / Jazz"),
                         pageCount = 608,

@@ -2,6 +2,8 @@ package angelosz.bookshelf.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -31,7 +33,7 @@ fun BookThumbnail(
     modifier: Modifier = Modifier,
 ){
     Card(
-        modifier = modifier,
+        modifier = modifier.height(250.dp).padding(dimensionResource(R.dimen.padding_small)),
         elevation = CardDefaults.cardElevation(1.dp),
         shape = RectangleShape,
         onClick = {
@@ -40,20 +42,21 @@ fun BookThumbnail(
     ){
         Column(
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxSize()
         ) {
             AsyncImage(
                 model = ImageRequest
                     .Builder(context = LocalContext.current)
-                    .data(book.volumeInfo.imageLinks.thumbnail)
+                    .data(book.volumeInfo.imageLinks.thumbnail.replace("http", "https"))
                     .crossfade(true)
                     .build(),
                 error = painterResource(R.drawable.ic_launcher_foreground),
                 placeholder = painterResource(R.drawable.bookshelf_small_image_example),
-                contentDescription = book.title,
+                contentDescription = book.volumeInfo.title,
             )
             Text(
-                text = book.title,
+                text = book.volumeInfo.title,
                 modifier = Modifier.padding(4.dp),
                 style = MaterialTheme.typography.labelLarge
             )
@@ -69,8 +72,8 @@ fun BookThumbnailPreview(){
             BookThumbnail(
                 BookThumbnailData(
                     id = "id",
-                    title = "Book Title",
                     volumeInfo = BookThumbnailVolumeInfo(
+                        title = "Book Title",
                         BookThumbnailImageLinks(
                             thumbnail = ""
                         )

@@ -62,7 +62,7 @@ fun BookThumbnail(
 }
 
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview
 @Composable
 fun BookThumbnailPreview(){
     BookshelfTheme {

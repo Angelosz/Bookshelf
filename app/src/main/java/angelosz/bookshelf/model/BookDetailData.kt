@@ -16,6 +16,7 @@ data class BookDetailVolumeInfo (
     val authors: List<String>,
     val categories: List<String>,
     val pageCount: Int,
+    val description: String
 )
 
 @Serializable

@@ -2,17 +2,19 @@ package angelosz.bookshelf
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import angelosz.bookshelf.ui.LandscapeLayout
 import angelosz.bookshelf.ui.PortraitLayout
 import angelosz.bookshelf.ui.viewmodel.BookshelfUIState
 import angelosz.bookshelf.ui.viewmodel.BookshelfViewModel
@@ -34,17 +36,26 @@ fun AppLayout(
             }
         }
     ) { innerPadding ->
-        PortraitLayout(
-            viewModel.uiState,
-            modifier = Modifier.padding(innerPadding),
-            onThumbnailClick = { id -> viewModel.getBook(id) },
-            onBackPressed = {
-                viewModel.navigateToListPage()
-            }
-        )
+        if(windowSize == WindowWidthSizeClass.Expanded){
+            LandscapeLayout(
+                viewModel.uiState,
+                onThumbnailClick = { id -> viewModel.getBook(id) },
+                modifier = Modifier.padding(innerPadding)
+            )
+        } else {
+            PortraitLayout(
+                viewModel.uiState,
+                modifier = Modifier.padding(innerPadding),
+                onThumbnailClick = { id -> viewModel.getBook(id) },
+                onBackPressed = {
+                    viewModel.navigateToListPage()
+                }
+            )
+        }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookShelfTopAppBar(showBackButton: Boolean = false, onBackButtonClick: () -> Unit){
     TopAppBar (

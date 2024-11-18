@@ -2,14 +2,10 @@ package angelosz.bookshelf.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.unit.dp
 import angelosz.bookshelf.R
 import angelosz.bookshelf.ui.viewmodel.BookshelfUIState
 
@@ -34,19 +30,10 @@ fun PortraitLayout(
                         )
                 } ?: Text(text = "No book found :(")
             } else {
-                LazyVerticalGrid(
-                    columns = GridCells.Adaptive(150.dp),
-                    modifier = modifier
-                ) {
-                    items(uiState.booksThumbnails) {book ->
-                        BookThumbnail(
-                            book = book,
-                            onThumbnailClick = {
-                                onThumbnailClick(book.id)
-                            }
-                        )
-                    }
-                }
+                ThumbnailList(
+                    thumbnails = uiState.booksThumbnails,
+                    onThumbnailClick = onThumbnailClick,
+                    modifier = modifier)
             }
         }
         is BookshelfUIState.BookshelfError -> {
@@ -57,4 +44,3 @@ fun PortraitLayout(
         }
     }
 }
-
